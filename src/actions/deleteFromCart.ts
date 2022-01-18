@@ -1,12 +1,12 @@
 import { Dispatch } from "redux";
 import { ICartAction } from "../reducers/cartReducer";
-import { INCREMENT_NUMBER_OF_ITEM_IN_CART } from "../reducers/typesOfReducers";
+import { DELETE_PRODUCT_FROM_CART } from "../reducers/typesOfReducers";
 
-export const fetchIncCart = (id: string) => {
+export const fetchDeleteFromCart = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      await fetch("/api/cart/inc", {
-        method: "PUT",
+      await fetch("/api/cart/delete", {
+        method: "DELETE",
         body: JSON.stringify({ id: id }),
         headers: {
           Authorization: "Bearer " + document.cookie.split("=")[1],
@@ -14,16 +14,16 @@ export const fetchIncCart = (id: string) => {
           "content-type": "application/json",
         },
       });
-      dispatch(incCart(id));
+      dispatch(deleteFromCart(id));
     } catch (err) {
       console.log(err);
     }
   };
 };
 
-const incCart = (id: string): ICartAction => {
+const deleteFromCart = (id: string): ICartAction => {
   return {
-    type: INCREMENT_NUMBER_OF_ITEM_IN_CART,
+    type: DELETE_PRODUCT_FROM_CART,
     payload: {
       id: id,
     },

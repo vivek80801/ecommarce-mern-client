@@ -6,7 +6,7 @@ export const fetchDecCart = (id: string) => {
   return async (dispatch: Dispatch) => {
     try {
       await fetch("/api/cart/dec", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify({ id: id }),
         headers: {
           Authorization: "Bearer " + document.cookie.split("=")[1],
