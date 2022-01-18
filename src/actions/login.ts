@@ -13,7 +13,6 @@ export const loginFetch = (
         method: "POST",
         headers: {
           "content-type": "application/json",
-          Authorization: "Bearer " + document.cookie.split("=")[1],
         },
         body: JSON.stringify({ username: username, password: password }),
       });

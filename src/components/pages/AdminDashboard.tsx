@@ -59,6 +59,7 @@ const AdminDashboard: React.FC = (): JSX.Element => {
             details: product.details,
           });
         });
+
         (() => {
           dispatch({
             type: GET_PRODUCT,
