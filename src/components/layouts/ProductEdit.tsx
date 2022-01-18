@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IState } from "../../store";
 import { fetchEditProduct } from "../../actions/editProduct";
+import productEdit from "../../scss/components/layouts/productEdit.module.scss";
 
 interface IProps {
   showEdit: boolean;
@@ -33,6 +34,7 @@ const ProductEdit: React.FC<IProps> = ({
         <>
           {showEdit && (
             <form
+              className={productEdit.desktop}
               onSubmit={(e) => {
                 e.preventDefault();
                 setShowEdit(false);

@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { IState } from "../../store";
 import { fetchLogOut } from "../../actions/logout";
+import navbar from "../../scss/components/layouts/navbar.module.scss";
 
 const Navbar: React.FC = (): JSX.Element => {
   const state = useSelector((state: IState) => state);
   const dispatch = useDispatch();
   return (
     <>
-      <h1>Hello from Navbar</h1>
-      <nav>
+      <nav className={navbar.desktop}>
+        <h1>logo</h1>
         <ul>
           <li>
             <Link to="/">home</Link>

@@ -6,6 +6,7 @@ import { fetchDeleteProduct } from "../../actions/deleteProduct";
 import { IState } from "../../store";
 import { GET_PRODUCT } from "../../reducers/typesOfReducers";
 import ProductEdit from "../layouts/ProductEdit";
+import adminDashboard from "../../scss/components/pages/adminDashboard.module.scss";
 
 const AdminDashboard: React.FC = (): JSX.Element => {
   const [loading, setLoading] = React.useState(false);
@@ -77,105 +78,109 @@ const AdminDashboard: React.FC = (): JSX.Element => {
   const dispatch = useDispatch();
   return (
     <>
-      <h1>Hello from admin dashboard</h1>
-      <h2>you are admin. you should have all controls of this website </h2>
-      <button onClick={() => setShowAddProduct(true)}>add product</button>
-      {showAddProduct && (
-        <>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              const fromData = new FormData();
-              setLoading(true);
-              fromData.append("productImg", file);
-              fromData.append("name", productName);
-              fromData.append("price", JSON.stringify(productPrice));
-              fromData.append("des", productDes);
-              dispatch(fetchAddProduct(fromData));
-              setLoading(false);
-              setShowAddProduct(false);
-              console.log(state);
-            }}
-          >
-            <input
-              type="text"
-              placeholder={"enter name of product"}
-              onChange={(e) => setProductName(e.target.value)}
-            />
-            <input
-              type="file"
-              onChange={(e) => {
-                //@ts-ignore
-                setFile(e.target.files[0]);
-              }}
-              placeholder={"choose product image"}
-              name="productImg"
-            />
-            <input
-              type="number"
-              onChange={(e) => setProductPrice(parseInt(e.target.value))}
-              placeholder={"enter your price"}
-            />
-            <textarea
-              cols={30}
-              rows={10}
-              placeholder={"enter details of product"}
-              onChange={(e) => setProductDes(e.target.value)}
-            ></textarea>
-            <button type="submit" disabled={loading}>
-              create product
-            </button>
-          </form>
-        </>
-      )}
-      {loading && <h1>Loading</h1>}
-      {state.product.length > 0 &&
-        state.product.map((product) => (
-          <div key={product.id}>
-            <h1>{product.name}</h1>
-            <img
-              src={`http://localhost:5000/${product.img}`}
-              alt={product.name}
-              width="200px"
-              height="200px"
-            />
-            <h3>Price: {product.price}</h3>
-            <p>{product.details}</p>
-            <button
-              onClick={() => {
-                setShowEdit(true);
-                setEditableProduct({
-                  _id: product.id,
-                  name: product.name,
-                  price: product.price,
-                  details: product.details,
-                  img: product.img,
-                });
+      <div className={adminDashboard.desktop}>
+        <button onClick={() => setShowAddProduct(true)}>add product</button>
+        {showAddProduct && (
+          <>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const fromData = new FormData();
+                setLoading(true);
+                fromData.append("productImg", file);
+                fromData.append("name", productName);
+                fromData.append("price", JSON.stringify(productPrice));
+                fromData.append("des", productDes);
+                dispatch(fetchAddProduct(fromData));
+                setLoading(false);
+                setShowAddProduct(false);
+                console.log(state);
               }}
             >
-              edit product
-            </button>
-            <button
-              onClick={() => {
-                dispatch(fetchDeleteProduct(product.id));
-              }}
-            >
-              delete
-            </button>
-            <button
-              onClick={() => {
-                dispatch(fetchAddToCart(product.id));
-              }}
-            >
-              add to cart
-            </button>
-          </div>
-        ))}
-      <ProductEdit
-        showEdit={showEdit}
-        setShowEdit={setShowEdit}
-        product={EditableProduct}
-      />
+              <input
+                type="text"
+                placeholder={"enter name of product"}
+                onChange={(e) => setProductName(e.target.value)}
+              />
+              <input
+                type="file"
+                onChange={(e) => {
+                  //@ts-ignore
+                  setFile(e.target.files[0]);
+                }}
+                placeholder={"choose product image"}
+                name="productImg"
+              />
+              <input
+                type="number"
+                onChange={(e) => setProductPrice(parseInt(e.target.value))}
+                placeholder={"enter your price"}
+              />
+              <textarea
+                cols={30}
+                rows={10}
+                placeholder={"enter details of product"}
+                onChange={(e) => setProductDes(e.target.value)}
+              ></textarea>
+              <button type="submit" disabled={loading}>
+                create product
+              </button>
+            </form>
+          </>
+        )}
+        {loading && <h1>Loading</h1>}
+        <div>
+          {state.product.length > 0 &&
+            state.product.map((product) => (
+              <div key={product.id}>
+                <h1>{product.name}</h1>
+                <img
+                  src={`http://localhost:5000/${product.img}`}
+                  alt={product.name}
+                  width="200px"
+                  height="200px"
+                />
+                <h3>Price: {product.price}</h3>
+                <p>{product.details}</p>
+                <div>
+                  <button
+                    onClick={() => {
+                      setShowEdit(true);
+                      setEditableProduct({
+                        _id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        details: product.details,
+                        img: product.img,
+                      });
+                    }}
+                  >
+                    edit product
+                  </button>
+                  <button
+                    onClick={() => {
+                      dispatch(fetchDeleteProduct(product.id));
+                    }}
+                  >
+                    delete
+                  </button>
+                  <button
+                    onClick={() => {
+                      dispatch(fetchAddToCart(product.id));
+                    }}
+                  >
+                    add to cart
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
+        <ProductEdit
+          showEdit={showEdit}
+          setShowEdit={setShowEdit}
+          product={EditableProduct}
+        />
+      </div>
     </>
   );
 };

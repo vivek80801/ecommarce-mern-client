@@ -1,0 +1,23 @@
+%editProduct {
+  position: absolute;
+  top: 20vh;
+  left: 40vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    input {
+      padding: 0.75rem;
+      background-color: #000;
+    }
+  }
+}
+.desktop {
+  @extend %editProduct;
+}
