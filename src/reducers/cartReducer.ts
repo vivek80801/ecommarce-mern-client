@@ -115,7 +115,7 @@ export const cartReducer = (state: ICartState[] = [], action: ICartAction) => {
                 img: product.img,
                 price: product.price,
                 details: product.details,
-                total: product.total,
+                total: product.price * (product.num + 1),
                 num: (product.num += 1),
               }
             : {
@@ -140,7 +140,7 @@ export const cartReducer = (state: ICartState[] = [], action: ICartAction) => {
                 img: product.img,
                 price: product.price,
                 details: product.details,
-                total: product.total,
+                total: product.price * (product.num - 1),
                 num: (product.num -= 1),
               }
             : {
