@@ -77,14 +77,16 @@ const Cart: React.FC = (): JSX.Element => {
         };
         dispatch(getCart());
         setLoading(false);
+        let newTotal = 0;
         //@ts-ignore
         if (state.cart.length > 0) {
           //@ts-ignore
           state.cart.map((myProduct) => {
-            setTotal(myProduct.total);
+            newTotal += myProduct.total;
           });
         }
-        console.log(total);
+        setTotal(newTotal);
+        console.log("total " + newTotal);
       } catch (err) {
         console.log(err);
       }
@@ -137,8 +139,8 @@ const Cart: React.FC = (): JSX.Element => {
                   >
                     <h1>{item.name}</h1>
                     <h2>{item.num}</h2>
-                    <h4>{item.price}</h4>
-                    <h3>{item.total}</h3>
+                    <h4> &#8377; {item.price}</h4>
+                    <h3> &#8377; {item.total}</h3>
                     <button
                       style={{
                         padding: "1rem",
@@ -149,16 +151,16 @@ const Cart: React.FC = (): JSX.Element => {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        dispatch(fetchIncCart(item.id));
-                        let total = 0;
+                        let newTotal = 0;
                         //@ts-ignore
                         if (state.cart.length > 0) {
                           //@ts-ignore
                           state.cart.map((myProduct) => {
-                            total += myProduct.total;
+                            newTotal += myProduct.total;
                           });
                         }
-                        setTotal(total);
+                        setTotal(newTotal + item.price);
+                        dispatch(fetchIncCart(item.id));
                       }}
                     >
                       +
@@ -173,18 +175,18 @@ const Cart: React.FC = (): JSX.Element => {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        if (item.num > 1) {
-                          dispatch(fetchDecCart(item.id));
-                        }
-                        let total = 0;
+                        let newTotal = 0;
                         //@ts-ignore
                         if (state.cart.length > 0) {
                           //@ts-ignore
                           state.cart.map((myProduct) => {
-                            total += myProduct.total;
+                            newTotal += myProduct.total;
                           });
                         }
-                        setTotal(total);
+                        setTotal(newTotal - item.price);
+                        if (item.num > 1) {
+                          dispatch(fetchDecCart(item.id));
+                        }
                       }}
                     >
                       -
@@ -199,16 +201,18 @@ const Cart: React.FC = (): JSX.Element => {
                         cursor: "pointer",
                       }}
                       onClick={() => {
-                        dispatch(fetchDeleteFromCart(item.id));
-                        let total = 0;
+                        let newTotal = 0;
                         //@ts-ignore
                         if (state.cart.length > 0) {
                           //@ts-ignore
                           state.cart.map((myProduct) => {
-                            total += myProduct.total;
+                            if (item.id !== myProduct.id) {
+                              newTotal += myProduct.total;
+                            }
                           });
                         }
-                        setTotal(total);
+                        setTotal(newTotal);
+                        dispatch(fetchDeleteFromCart(item.id));
                       }}
                     >
                       delete
@@ -216,7 +220,7 @@ const Cart: React.FC = (): JSX.Element => {
                   </div>
                 ))
               }
-              <h1>Total: {total}</h1>
+              <h1>Total: &#8377; {total}</h1>
             </>
           ) : (
             <>

@@ -135,7 +135,15 @@ const AdminDashboard: React.FC = (): JSX.Element => {
           </>
         )}
         {loading && <h1>Loading</h1>}
-        <div>
+        <div
+          style={
+            showAddProduct
+              ? { display: "none" }
+              : showEdit
+              ? { display: "none" }
+              : { display: "grid" }
+          }
+        >
           {state.product.length > 0 &&
             state.product.map((product) => (
               <div key={product.id}>
@@ -149,7 +157,6 @@ const AdminDashboard: React.FC = (): JSX.Element => {
                 <h3>Price: {product.price}</h3>
                 <p>{product.details}</p>
                 <div>
-                  {JSON.stringify(showEdit)}
                   <button
                     onClick={() => {
                       setEditableProduct({
