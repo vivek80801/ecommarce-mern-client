@@ -1,0 +1,17 @@
+%products {
+  display: grid;
+  grid-template-columns: repeat(1fr, 4);
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    button{
+        padding: 0.75rem;
+    }
+  }
+}
+
+.desktop {
+  @extend %products;
+}

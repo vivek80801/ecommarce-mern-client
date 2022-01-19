@@ -8,6 +8,7 @@ import { fetchDeleteFromCart } from "../../actions/deleteFromCart";
 
 const Cart: React.FC = (): JSX.Element => {
   const [loading, setLoading] = React.useState(false);
+  const [total, setTotal] = React.useState(0);
   const state = useSelector((state: IState) => state);
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -76,6 +77,14 @@ const Cart: React.FC = (): JSX.Element => {
         };
         dispatch(getCart());
         setLoading(false);
+        //@ts-ignore
+        if (state.cart.length > 0) {
+          //@ts-ignore
+          state.cart.map((myProduct) => {
+            setTotal(myProduct.total);
+          });
+        }
+        console.log(total);
       } catch (err) {
         console.log(err);
       }
@@ -93,37 +102,122 @@ const Cart: React.FC = (): JSX.Element => {
             </>
           ) : //@ts-ignore
           state.cart.length > 0 ? (
-            //@ts-ignore
-            state.cart.map((item) => (
+            <>
               <div
-                key={item.id}
                 style={{
+                  margin: "1rem",
+                  padding: "1rem",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  textTransform: "capitalize",
                 }}
               >
-                <h1>{item.name}</h1>
-                <h2>{item.num}</h2>
-                <h4>{item.price}</h4>
-                <h3>{item.total}</h3>
-                <button onClick={() => dispatch(fetchIncCart(item.id))}>
-                  +
-                </button>
-                <button
-                  onClick={() => {
-                    if (item.num > 0) {
-                      dispatch(fetchDecCart(item.id));
-                    }
-                  }}
-                >
-                  -
-                </button>
-                <button onClick={() => dispatch(fetchDeleteFromCart(item.id))}>
-                  delete
-                </button>
+                <h1>name</h1>
+                <h1>quantity</h1>
+                <h1>price</h1>
+                <h1>subTotal</h1>
+                <h1>inc</h1>
+                <h1>dec</h1>
+                <h1>delete</h1>
               </div>
-            ))
+              {
+                //@ts-ignore
+                state.cart.map((item) => (
+                  <div
+                    key={item.id}
+                    style={{
+                      margin: "1rem",
+                      padding: "1rem",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    <h1>{item.name}</h1>
+                    <h2>{item.num}</h2>
+                    <h4>{item.price}</h4>
+                    <h3>{item.total}</h3>
+                    <button
+                      style={{
+                        padding: "1rem",
+                        borderRadius: "0.75rem",
+                        border: "none",
+                        outline: "none",
+                        backgroundColor: "#d7d7d7",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        dispatch(fetchIncCart(item.id));
+                        let total = 0;
+                        //@ts-ignore
+                        if (state.cart.length > 0) {
+                          //@ts-ignore
+                          state.cart.map((myProduct) => {
+                            total += myProduct.total;
+                          });
+                        }
+                        setTotal(total);
+                      }}
+                    >
+                      +
+                    </button>
+                    <button
+                      style={{
+                        padding: "1rem",
+                        borderRadius: "0.75rem",
+                        border: "none",
+                        outline: "none",
+                        backgroundColor: "#d7d7d7",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        if (item.num > 1) {
+                          dispatch(fetchDecCart(item.id));
+                        }
+                        let total = 0;
+                        //@ts-ignore
+                        if (state.cart.length > 0) {
+                          //@ts-ignore
+                          state.cart.map((myProduct) => {
+                            total += myProduct.total;
+                          });
+                        }
+                        setTotal(total);
+                      }}
+                    >
+                      -
+                    </button>
+                    <button
+                      style={{
+                        padding: "1rem",
+                        borderRadius: "0.75rem",
+                        border: "none",
+                        outline: "none",
+                        backgroundColor: "#d7d7d7",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => {
+                        dispatch(fetchDeleteFromCart(item.id));
+                        let total = 0;
+                        //@ts-ignore
+                        if (state.cart.length > 0) {
+                          //@ts-ignore
+                          state.cart.map((myProduct) => {
+                            total += myProduct.total;
+                          });
+                        }
+                        setTotal(total);
+                      }}
+                    >
+                      delete
+                    </button>
+                  </div>
+                ))
+              }
+              <h1>Total: {total}</h1>
+            </>
           ) : (
             <>
               <h1>no item in cart</h1>

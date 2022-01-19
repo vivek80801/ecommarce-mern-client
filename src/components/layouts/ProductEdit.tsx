@@ -26,6 +26,13 @@ const ProductEdit: React.FC<IProps> = ({
   const [editProductPrice, setEditProductPrice] = React.useState(product.price);
   const [file, setFile] = React.useState<any>();
 
+  React.useEffect(() => {
+    console.log(product);
+    setEditProductName(product.name);
+    setEditProductPrice(product.price);
+    setEditProductDes(product.details);
+  }, []);
+
   const state = useSelector((state: IState) => state);
   const dispatch = useDispatch();
   return (

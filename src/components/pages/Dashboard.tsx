@@ -60,8 +60,6 @@ const Dashboard: React.FC = (): JSX.Element => {
     <>
       {state.auth.auth ? (
         <>
-          <h1>welcome {state.auth.username}</h1>
-          <h2>your email is {state.auth.email}</h2>
           {loading ? (
             <>
               <h1>loading</h1>

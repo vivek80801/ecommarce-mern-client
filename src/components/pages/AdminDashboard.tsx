@@ -79,7 +79,13 @@ const AdminDashboard: React.FC = (): JSX.Element => {
   return (
     <>
       <div className={adminDashboard.desktop}>
-        <button onClick={() => setShowAddProduct(true)}>add product</button>
+        <button
+          onClick={() => {
+            setShowAddProduct(true);
+          }}
+        >
+          add product
+        </button>
         {showAddProduct && (
           <>
             <form
@@ -94,7 +100,6 @@ const AdminDashboard: React.FC = (): JSX.Element => {
                 dispatch(fetchAddProduct(fromData));
                 setLoading(false);
                 setShowAddProduct(false);
-                console.log(state);
               }}
             >
               <input
@@ -122,6 +127,7 @@ const AdminDashboard: React.FC = (): JSX.Element => {
                 placeholder={"enter details of product"}
                 onChange={(e) => setProductDes(e.target.value)}
               ></textarea>
+              <button onClick={() => setShowAddProduct(false)}>cancel</button>
               <button type="submit" disabled={loading}>
                 create product
               </button>
@@ -143,9 +149,9 @@ const AdminDashboard: React.FC = (): JSX.Element => {
                 <h3>Price: {product.price}</h3>
                 <p>{product.details}</p>
                 <div>
+                  {JSON.stringify(showEdit)}
                   <button
                     onClick={() => {
-                      setShowEdit(true);
                       setEditableProduct({
                         _id: product.id,
                         name: product.name,
@@ -153,6 +159,7 @@ const AdminDashboard: React.FC = (): JSX.Element => {
                         details: product.details,
                         img: product.img,
                       });
+                      setShowEdit(true);
                     }}
                   >
                     edit product
@@ -175,11 +182,13 @@ const AdminDashboard: React.FC = (): JSX.Element => {
               </div>
             ))}
         </div>
-        <ProductEdit
-          showEdit={showEdit}
-          setShowEdit={setShowEdit}
-          product={EditableProduct}
-        />
+        {showEdit && (
+          <ProductEdit
+            showEdit={showEdit}
+            setShowEdit={setShowEdit}
+            product={EditableProduct}
+          />
+        )}
       </div>
     </>
   );
