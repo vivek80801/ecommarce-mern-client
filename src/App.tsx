@@ -9,6 +9,7 @@ import Default from "./components/pages/Default";
 import Dashboard from "./components/pages/Dashboard";
 import AdminDashboard from "./components/pages/AdminDashboard";
 import Cart from "./components/pages/Cart";
+import Order from "./components/pages/Order";
 import "./App.scss";
 
 const App: React.FC = (): JSX.Element => {
@@ -20,6 +21,7 @@ const App: React.FC = (): JSX.Element => {
         <Route exact path={"/"} component={Home} />
         <Route exact path={"/login"} component={LogIn} />
         <Route exact path={"/cart"} component={Cart} />
+        <Route exact path={"/order"} component={Order} />
         <Route
           exact
           path={"/dashboard"}

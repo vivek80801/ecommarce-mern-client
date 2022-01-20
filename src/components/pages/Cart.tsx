@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { IState } from "../../store";
 import { GET_CART, GET_PRODUCT } from "../../reducers/typesOfReducers";
 import { fetchIncCart } from "../../actions/incCart";
@@ -9,6 +10,8 @@ import { fetchDeleteFromCart } from "../../actions/deleteFromCart";
 const Cart: React.FC = (): JSX.Element => {
   const [loading, setLoading] = React.useState(false);
   const [total, setTotal] = React.useState(0);
+  const [numberOfItem, setNumberOfItem] = React.useState(0);
+
   const state = useSelector((state: IState) => state);
   const dispatch = useDispatch();
   React.useEffect(() => {
@@ -81,6 +84,8 @@ const Cart: React.FC = (): JSX.Element => {
         //@ts-ignore
         if (state.cart.length > 0) {
           //@ts-ignore
+          setNumberOfItem(state.cart.length);
+          //@ts-ignore
           state.cart.map((myProduct) => {
             newTotal += myProduct.total;
           });
@@ -97,7 +102,7 @@ const Cart: React.FC = (): JSX.Element => {
     <>
       {state.auth.auth ? (
         <>
-          <h1>cart</h1>
+          <h1>cart {numberOfItem}</h1>
           {loading ? (
             <>
               <h1>loading</h1>{" "}
@@ -221,6 +226,7 @@ const Cart: React.FC = (): JSX.Element => {
                 ))
               }
               <h1>Total: &#8377; {total}</h1>
+              <Link to="/order">place order</Link>
             </>
           ) : (
             <>
